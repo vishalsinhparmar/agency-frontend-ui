@@ -1,0 +1,22 @@
+.Img-content{
+opacity: 0.6;
+background-size: cover;
+background-color: black;
+}
+
+.Image{
+width: 80px;
+height: 80px;
+border-radius: 50%;
+}
+.Images{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+/* for navbar media query */
+
+ 
+   
+  
