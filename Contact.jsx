@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import {Envelope, Facebook, GeoAlt, Instagram, Linkedin, Mailbox, Mailbox2, Phone, PhoneFill, PhoneLandscape, Telephone, Twitter,  } from 'react-bootstrap-icons'
 
-import axios from 'axios';
 import swal from 'sweetalert';
 import emailjs from '@emailjs/browser'
 export default function ContactUs() {
@@ -24,11 +23,21 @@ export default function ContactUs() {
 
   }
  emailjs.sendForm(ServiceID,TemlateID,e.target,PublicID);
-  axios.post(`http://localhost:3000/Contact-Us`,name).then(()=>{
-   
-  swal("Good job!", "You clicked the button!", "success");
-  e.target.reset();
+  fetch('/Contact-Us', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(name),
   })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+      swal("Good job!", "You clicked the button!", "success");
+      e.target.reset();
+    })
+    .catch(() => {
+      swal("Something went wrong", "Please try again later.", "error");
+    })
  
 
   }
