@@ -4,7 +4,6 @@ import Swal from 'sweetalert'
 import { Google, GooglePlay, Pass } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 import NavbarApp from './NavbarApp'
-import axios from 'axios'
 import emailjs from '@emailjs/browser'
 export default function SignUp() {
   const Name = useRef("");
@@ -27,17 +26,31 @@ export default function SignUp() {
     }
     
     emailjs.sendForm(ServiceID,temlateID,e.target,PublicID);
-   axios.post(`http://localhost:3000/SignUp`,ins).then(()=>{
-    Swal({
-      title: "Good job!",
-      text: "You are successfully SignUp!",
-      icon: "success",
-      button: "SignUp!",
-    });
-    e.target.reset();
-   }
-  
-  )
+   fetch('/SignUp', {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify(ins),
+   })
+     .then((response) => {
+       if (!response.ok) {
+         throw new Error('Request failed');
+       }
+       Swal({
+         title: "Good job!",
+         text: "You are successfully SignUp!",
+         icon: "success",
+         button: "SignUp!",
+       });
+       e.target.reset();
+     })
+     .catch(() => {
+       Swal({
+         title: "Something went wrong",
+         text: "Please try again later.",
+         icon: "error",
+         button: "Ok",
+       });
+     })
    
   }
     return (
